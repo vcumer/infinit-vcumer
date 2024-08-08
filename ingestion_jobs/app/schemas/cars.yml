@@ -1,0 +1,16 @@
+name: cars
+type: postgres
+primary_key: car_id
+fields:
+  car_id:
+    type: int64
+    required: true
+  car_make:
+    type: object
+    required: true
+  car_model:
+    type: object
+    required: true
+  price:
+    type: float64
+    required: true

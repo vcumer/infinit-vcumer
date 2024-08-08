@@ -1,0 +1,72 @@
+version: '3.8'
+
+networks:
+  infinit:
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: vcumer
+      POSTGRES_PASSWORD: vcumer
+      POSTGRES_DB: infinit
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U vcumer -d infinit" ]
+      interval: 5s
+      retries: 3
+      start_period: 10s
+      timeout: 10s
+    networks:
+      infinit:
+
+  operationaldb:
+    image: postgres:latest
+    container_name: operationaldb
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pwd
+      POSTGRES_DB: db
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./data/operationaldb:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U user -d db" ]
+      interval: 5s
+      retries: 3
+      start_period: 10s
+      timeout: 10s
+    networks:
+      infinit:
+
+  dbt_docs:
+    build:
+      context: ./dbt_postgres_infinit
+    container_name: dbt_docs
+    ports:
+      - "8080:80"
+    environment:
+      DATABASE_HOST: postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      infinit:
+
+  ingestion_job:
+    build:
+      context: ./ingestion_jobs
+    container_name: ingestion_job
+    environment:
+      OPERATIONAL_PRODUCT_DB_HOST: operationaldb
+      DWH_HOST: postgres
+    depends_on:
+      operationaldb:
+        condition: service_healthy
+    networks:
+      infinit:

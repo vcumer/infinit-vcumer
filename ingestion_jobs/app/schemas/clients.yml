@@ -1,0 +1,13 @@
+name: clients
+type: json
+primary_key: client_id
+fields:
+  client_id:
+    type: int64
+    required: true
+  name:
+    type: object
+    required: true
+  email:
+    type: object
+    required: true

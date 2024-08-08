@@ -1,0 +1,13 @@
+dbt_postgres:
+  outputs:
+    dev:
+      type: postgres
+      host: "{{ env_var('DATABASE_HOST', 'localhost') }}"
+      port: 5432
+      user: vcumer
+      password: vcumer
+      dbname: infinit
+      schema: staging
+      threads: 1
+      connect_timeout: 10
+  target: dev

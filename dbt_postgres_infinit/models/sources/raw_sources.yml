@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+- database: infinit
+  name: infinit
+  schema: raw
+  tables:
+  - identifier: cars
+    name: cars
+  - identifier: clients
+    name: clients
+  - identifier: transactions
+    name: transactions

@@ -1,0 +1,13 @@
+import os
+
+OPERATIONAL_PRODUCT_DB_HOST = os.getenv('OPERATIONAL_PRODUCT_DB_HOST', 'localhost')
+OPERATIONAL_PRODUCT_DB_PORT = '5432' if os.getenv('OPERATIONAL_PRODUCT_DB_HOST') is not None else '5433'
+OPERATIONAL_PRODUCT_DB_USER = 'user'
+OPERATIONAL_PRODUCT_DB_PWD = 'pwd'
+OPERATIONAL_PRODUCT_DB_DB = 'db'
+
+DWH_HOST = os.getenv('DWH_HOST', 'localhost')
+DWH_PORT = '5432'
+DWH_USER = 'vcumer'
+DWH_PWD = 'vcumer'
+DWH_DB = 'infinit'

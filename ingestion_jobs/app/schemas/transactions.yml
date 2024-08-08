@@ -1,0 +1,22 @@
+name: transactions
+type: csv
+primary_key: transaction_id
+fields:
+  transaction_id:
+    type: int64
+    required: true
+  product_id:
+    type: int64
+    required: true
+  client_id:
+    type: int64
+    required: true
+  quantity:
+    type: int64
+    required: true
+  price:
+    type: float64
+    required: true
+  timestamp:
+    type: datetime64[ns]
+    required: true

@@ -1,0 +1,98 @@
+models:
+  - name: dim_clients
+    description: "A model to get the latest client information from the clients raw source table."
+    columns:
+      - name: client_id
+        description: "Unique identifier for the client."
+        tests:
+          - not_null
+          - unique
+      - name: name
+        description: "Name of the client."
+        tests:
+          - not_null
+      - name: email
+        description: "Email address of the client."
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_cars
+    description: "A model to get the latest cars information from the car raw source table."
+    columns:
+      - name: product_id
+        description: "Unique identifier for the car."
+        tests:
+          - not_null
+          - unique
+      - name: brand
+        description: "Name of the car manufacturer."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Peugeot', 'Toyota', 'Ford', 'Honda', 'Nissan', 'Chevrolet', 'Volkswagen']
+      - name: model
+        description: "Model name of the car."
+        tests:
+          - not_null
+      - name: price
+        description: "Market price."
+        tests:
+          - not_null
+
+  - name: fct_transactions_month
+    description: "A model that provides monthly aggregated transaction data, including lagged values for comparison."
+    config:
+      indexes:
+        - columns: [ client_name ]
+        - columns: [ brand ]
+        - columns: [ model ]
+    columns:
+      - name: month
+        description: "The month of the transaction, truncated to the first day of the month."
+        tests:
+          - not_null
+      - name: client_name
+        description: "The name of the client."
+        tests:
+          - not_null
+      - name: model
+        description: "The model of the product."
+        tests:
+          - not_null
+      - name: brand
+        description: "The brand of the product."
+        tests:
+          - not_null
+      - name: nb_transactions
+        description: "Number of distinct transactions in the given month."
+        tests:
+          - not_null
+      - name: nb_transactions_last_month
+        description: "Number of distinct transactions in the previous month."
+        tests:
+          - not_null
+      - name: product_quantity_sold
+        description: "Total quantity of products sold in the given month."
+        tests:
+          - not_null
+      - name: product_quantity_sold_last_month
+        description: "Total quantity of products sold in the previous month."
+        tests:
+          - not_null
+      - name: turnover
+        description: "Total turnover generated from sales in the given month."
+        tests:
+          - not_null
+      - name: turnover_last_month
+        description: "Total turnover generated from sales in the previous month."
+        tests:
+          - not_null
+      - name: market_value
+        description: "Total market value of products sold in the given month."
+        tests:
+          - not_null
+      - name: market_value_last_month
+        description: "Total market value of products sold in the previous month."
+        tests:
+          - not_null
